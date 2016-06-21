@@ -15,6 +15,7 @@ public class Neopad
 
 	public static void main(String[] args) throws IOException
 	{
+		// test
 		LaunchpadDeviceModel deviceModel = new LaunchpadDeviceModel();
 		@SuppressWarnings("resource")
 		LaunchpadDevice deviceView = new LaunchpadDevice();

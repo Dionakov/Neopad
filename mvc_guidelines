@@ -1,0 +1,6 @@
+A view class shouldn't depend on a model class (although this may be unavoidable with some custom views).
+A view class shouldn't have to depend on a mediating controller class.
+A model class shouldn't depend on anything other than other model classes.
+A mediating controller class shouldn’t depend on a model class (although, like views, this may be necessary if it's a custom controller class).
+A mediating controller class shouldn't depend on view classes or on coordinating controller classes.
+A coordinating controller class depends on classes of all MVC role types.

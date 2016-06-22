@@ -5,11 +5,22 @@ import org.neotouch.neopad.mvc.Controller;
 import org.neotouch.neopad.mvc.Model;
 import org.neotouch.neopad.mvc.View;
 import org.neotouch.neopad.view.LaunchpadDevice;
+import org.neotouch.neopad.view.MidiMessageEvent;
+import org.neotouch.neopad.view.MidiMessageListener;
 
 public class TestController extends Controller
 {
-	LaunchpadDeviceModel deviceModel;
-	LaunchpadDevice deviceView;
+	private LaunchpadDeviceModel deviceModel;
+	private LaunchpadDevice deviceView;
+
+	private MidiMessageListener midiMessageListener = new MidiMessageListener()
+	{
+		@Override
+		public void midiMessageReceived(MidiMessageEvent event)
+		{
+			deviceView.sendMessage(event.getMessage(), event.getTimeStamp());
+		}
+	};
 
 	public TestController(View view, Model model)
 	{
@@ -23,6 +34,7 @@ public class TestController extends Controller
 
 		this.deviceView = (LaunchpadDevice) view;
 		this.deviceModel = (LaunchpadDeviceModel) model;
-	}
 
+		this.deviceView.addMidiMessageListener(midiMessageListener);
+	}
 }

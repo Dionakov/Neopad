@@ -12,12 +12,14 @@ import javax.sound.midi.MidiUnavailableException;
 import javax.sound.midi.Receiver;
 import javax.sound.midi.ShortMessage;
 import javax.sound.midi.SysexMessage;
+import javax.swing.event.EventListenerList;
 
 import org.neotouch.neopad.mvc.View;
 
 public class LaunchpadDevice implements View, Receiver
 {
 	private Receiver deviceOut = null;
+	private EventListenerList listeners = new EventListenerList();
 
 	public void setDeviceOut(MidiDevice out) throws MidiUnavailableException
 	{
@@ -138,18 +140,23 @@ public class LaunchpadDevice implements View, Receiver
 		}
 	}
 
+	public void sendMessage(MidiMessage message, long timeStamp)
+	{
+		deviceOut.send(message, timeStamp);
+	}
+
 	public void addMidiMessageListener(MidiMessageListener l)
 	{
-
+		listeners.add(MidiMessageListener.class, l);
 	}
 
 	public void removeMidiMessageListener(MidiMessageListener l)
 	{
-
+		listeners.remove(MidiMessageListener.class, l);
 	}
 
 	public MidiMessageListener[] getMidiMessageListeners()
 	{
-		return null;
+		return listeners.getListeners(MidiMessageListener.class);
 	}
 }

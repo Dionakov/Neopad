@@ -4,19 +4,12 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.UnsupportedEncodingException;
 
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import org.neotouch.neopad.model.GuiLaunchpadModel;
-import org.neotouch.neopad.model.LaunchpadDeviceModel;
 import org.neotouch.neopad.mvc.View;
-import org.neotouch.neopad.resource.PatternFile;
 
 public final class LaunchpadControlBar extends JPanel implements View
 {
@@ -27,8 +20,6 @@ public final class LaunchpadControlBar extends JPanel implements View
 	private JButton savePatternButton = new JButton("Save pattern");
 	private JButton launchpadPreviewButton = new JButton("Preview");
 	private Color currentColor = Color.BLACK;
-	private GuiLaunchpadModel buttonGrid = null;
-	private LaunchpadDeviceModel device = null;
 
 	public LaunchpadControlBar()
 	{
@@ -39,18 +30,14 @@ public final class LaunchpadControlBar extends JPanel implements View
 		add(currentColorButton);
 		add(savePatternButton);
 		add(launchpadPreviewButton);
-		randomColorsButton.addActionListener(new ActionListener()
-		{
-
-			@Override
-			public void actionPerformed(ActionEvent arg0)
-			{
-				if (buttonGrid != null) {
-					buttonGrid.setRandomColors();
-				}
-			}
-
-		});
+		/*
+		 * randomColorsButton.addActionListener(new ActionListener() {
+		 * 
+		 * @Override public void actionPerformed(ActionEvent arg0) { if
+		 * (buttonGrid != null) { buttonGrid.setRandomColors(); } }
+		 * 
+		 * });
+		 */
 
 		currentColorButton.addActionListener(new ActionListener()
 		{
@@ -64,46 +51,32 @@ public final class LaunchpadControlBar extends JPanel implements View
 
 		});
 
-		savePatternButton.addActionListener(new ActionListener()
-		{
-			@Override
-			public void actionPerformed(ActionEvent event)
-			{
-				File patternFile = new File("resources/patterns/"
-						+ JOptionPane.showInputDialog(
-								"Please enter file name :", "newPattern1")
-						+ ".npat");
-				try {
-					new PatternFile(patternFile)
-							.savePattern(buttonGrid.exportPattern());
-				} catch (FileNotFoundException
-						| UnsupportedEncodingException e) {
-					e.printStackTrace();
-				}
-			}
-		});
+		/*
+		 * savePatternButton.addActionListener(new ActionListener() {
+		 * 
+		 * @Override public void actionPerformed(ActionEvent event) { File
+		 * patternFile = new File("resources/patterns/" +
+		 * JOptionPane.showInputDialog( "Please enter file name :",
+		 * "newPattern1") + ".npat"); try { new PatternFile(patternFile)
+		 * .savePattern(buttonGrid.exportPattern()); } catch
+		 * (FileNotFoundException | UnsupportedEncodingException e) {
+		 * e.printStackTrace(); } } });
+		 */
 
-		launchpadPreviewButton.addActionListener(new ActionListener()
-		{
-
-			@Override
-			public void actionPerformed(ActionEvent arg0)
-			{
-				for (int row = 0; row < 9; row++) {
-					for (int col = 0; col < 9; col++) {
-						if (row == 0 && col == 8) {
-							continue;
-						}
-
-						Color c = buttonGrid.getButtonColor(row, col);
-						device.setButtonLedOn(row, col, !c.equals(Color.BLACK));
-
-						device.setButtonColor(row, col, c);
-					}
-				}
-			}
-
-		});
+		/*
+		 * launchpadPreviewButton.addActionListener(new ActionListener() {
+		 * 
+		 * @Override public void actionPerformed(ActionEvent arg0) { for (int
+		 * row = 0; row < 9; row++) { for (int col = 0; col < 9; col++) { if
+		 * (row == 0 && col == 8) { continue; }
+		 * 
+		 * Color c = buttonGrid.getButtonColor(row, col);
+		 * device.setButtonLedOn(row, col, !c.equals(Color.BLACK));
+		 * 
+		 * device.setButtonColor(row, col, c); } } }
+		 * 
+		 * });
+		 */
 	}
 
 	public void setCurrentColor(Color c)

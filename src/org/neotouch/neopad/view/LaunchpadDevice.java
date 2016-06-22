@@ -1,6 +1,5 @@
 package org.neotouch.neopad.view;
 
-import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -14,12 +13,10 @@ import javax.sound.midi.Receiver;
 import javax.sound.midi.ShortMessage;
 import javax.sound.midi.SysexMessage;
 
-import org.neotouch.neopad.model.LaunchpadDeviceModel;
 import org.neotouch.neopad.mvc.View;
 
 public class LaunchpadDevice implements View, Receiver
 {
-	private LaunchpadDeviceModel model = null;
 	private Receiver deviceOut = null;
 
 	public void setDeviceOut(MidiDevice out) throws MidiUnavailableException
@@ -111,26 +108,18 @@ public class LaunchpadDevice implements View, Receiver
 		}
 	}
 
-	private void updateButton(int row, int col) throws InvalidMidiDataException
-	{
-		Color c = (model.isButtonLedOn(row, col))
-				? model.getButtonColor(row, col) : Color.BLACK;
-		byte buttonPos = 0;
-		if (row == 0) {
-			buttonPos = (byte) (104 + col);
-		} else {
-			buttonPos = (byte) ((9 - row) * 10 + col + 1);
-		}
-
-		byte[] msg = new byte[] { (byte) 0xF0, 0x00, 0x20, 0x29, 0x02, 0x18,
-				0x0B, buttonPos, (byte) (c.getRed() / (255d / 63d)),
-				(byte) (c.getGreen() / (255d / 63d)),
-				(byte) (c.getBlue() / (255d / 63d)) };
-		if (row != 0) {
-			deviceOut.send(new SysexMessage(msg, msg.length), -1);
-			deviceOut.send(new SysexMessage(msg, msg.length), -1);
-		}
-	}
+	/*
+	 * private void updateButton(int row, int col) throws
+	 * InvalidMidiDataException { Color c = (model.isButtonLedOn(row, col)) ?
+	 * model.getButtonColor(row, col) : Color.BLACK; byte buttonPos = 0; if (row
+	 * == 0) { buttonPos = (byte) (104 + col); } else { buttonPos = (byte) ((9 -
+	 * row) * 10 + col + 1); } byte[] msg = new byte[] { (byte) 0xF0, 0x00,
+	 * 0x20, 0x29, 0x02, 0x18, 0x0B, buttonPos, (byte) (c.getRed() / (255d /
+	 * 63d)), (byte) (c.getGreen() / (255d / 63d)), (byte) (c.getBlue() / (255d
+	 * / 63d)) }; if (row != 0) { deviceOut.send(new SysexMessage(msg,
+	 * msg.length), -1); deviceOut.send(new SysexMessage(msg, msg.length), -1);
+	 * } }
+	 */
 
 	@Override
 	public void close()
@@ -142,6 +131,25 @@ public class LaunchpadDevice implements View, Receiver
 	public void send(MidiMessage message, long timeStamp)
 	{
 		System.out.println(((ShortMessage) message).getStatus());
+
+		for (MidiMessageListener l : getMidiMessageListeners()) {
+			l.midiMessageReceived(
+					new MidiMessageEvent(this, message, timeStamp));
+		}
 	}
 
+	public void addMidiMessageListener(MidiMessageListener l)
+	{
+
+	}
+
+	public void removeMidiMessageListener(MidiMessageListener l)
+	{
+
+	}
+
+	public MidiMessageListener[] getMidiMessageListeners()
+	{
+		return null;
+	}
 }

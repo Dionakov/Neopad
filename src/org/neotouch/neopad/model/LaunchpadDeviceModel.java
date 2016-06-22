@@ -2,9 +2,9 @@ package org.neotouch.neopad.model;
 
 import java.awt.Color;
 
-import javafx.geometry.Point2D;
+import org.neotouch.neopad.mvc.Model;
 
-public class LaunchpadDeviceModel extends AbstractModel
+public class LaunchpadDeviceModel implements Model
 {
 	private static int SQUARE_SIDE = 9;
 	public DeviceButton[][] buttons = new DeviceButton[SQUARE_SIDE][SQUARE_SIDE];
@@ -24,22 +24,16 @@ public class LaunchpadDeviceModel extends AbstractModel
 	public void setButtonPressed(int row, int col, boolean isPressed)
 	{
 		buttons[row][col].isPressed = isPressed;
-		setChanged();
-		notifyObservers(new Point2D(row, col));
 	}
 
 	public void setButtonLedOn(int row, int col, boolean isLedOn)
 	{
 		buttons[row][col].isLedOn = isLedOn;
-		setChanged();
-		notifyObservers(new Point2D(row, col));
 	}
 
 	public void setButtonColor(int row, int col, Color color)
 	{
 		buttons[row][col].color = color;
-		setChanged();
-		notifyObservers(new Point2D(row, col));
 	}
 
 	public boolean isButtonPressed(int row, int col)

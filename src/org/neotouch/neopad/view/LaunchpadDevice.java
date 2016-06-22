@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Observable;
 
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiDevice;
@@ -15,16 +14,13 @@ import javax.sound.midi.Receiver;
 import javax.sound.midi.ShortMessage;
 import javax.sound.midi.SysexMessage;
 
-import org.neotouch.neopad.model.AbstractModel;
 import org.neotouch.neopad.model.LaunchpadDeviceModel;
+import org.neotouch.neopad.mvc.View;
 
-import javafx.geometry.Point2D;
-
-public class LaunchpadDevice implements ViewController, Receiver
+public class LaunchpadDevice implements View, Receiver
 {
 	private LaunchpadDeviceModel model = null;
 	private Receiver deviceOut = null;
-	// TODO communicate with the device.
 
 	public void setDeviceOut(MidiDevice out) throws MidiUnavailableException
 	{
@@ -115,22 +111,6 @@ public class LaunchpadDevice implements ViewController, Receiver
 		}
 	}
 
-	@Override
-	public void update(Observable arg0, Object arg1)
-	{
-		if (!(arg0 instanceof LaunchpadDeviceModel) || arg1 == null) {
-			return;
-		}
-
-		Point2D buttonCoords = (Point2D) arg1;
-		try {
-			updateButton((int) buttonCoords.getX(), (int) buttonCoords.getY());
-		} catch (InvalidMidiDataException e) {
-			e.printStackTrace();
-		}
-
-	}
-
 	private void updateButton(int row, int col) throws InvalidMidiDataException
 	{
 		Color c = (model.isButtonLedOn(row, col))
@@ -153,19 +133,9 @@ public class LaunchpadDevice implements ViewController, Receiver
 	}
 
 	@Override
-	public void addModel(AbstractModel model)
-	{
-		if (model instanceof LaunchpadDeviceModel) {
-			this.model = (LaunchpadDeviceModel) model;
-			this.model.addObserver(this);
-		}
-	}
-
-	@Override
 	public void close()
 	{
-		// TODO Auto-generated method stub
-
+		// nothing to do.
 	}
 
 	@Override

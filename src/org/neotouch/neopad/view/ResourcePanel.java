@@ -6,18 +6,19 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
-import java.util.Observable;
 
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.filechooser.FileFilter;
 
-import org.neotouch.neopad.model.AbstractModel;
 import org.neotouch.neopad.model.GuiLaunchpadModel;
+import org.neotouch.neopad.mvc.View;
 import org.neotouch.neopad.resource.PatternFile;
 
-public final class ResourcePanel extends JPanel implements ViewController
+public final class ResourcePanel extends JPanel implements View
 {
+	private static final long serialVersionUID = 1L;
+
 	private JFileChooser fileChooser = new JFileChooser(
 			new File("resources/patterns"));
 	private GuiLaunchpadModel grid = null;
@@ -72,19 +73,5 @@ public final class ResourcePanel extends JPanel implements ViewController
 			}
 
 		});
-	}
-
-	@Override
-	public void update(Observable arg0, Object arg1)
-	{
-		// nothing to do.
-	}
-
-	@Override
-	public void addModel(AbstractModel model)
-	{
-		if (model instanceof GuiLaunchpadModel) {
-			grid = (GuiLaunchpadModel) model;
-		}
 	}
 }

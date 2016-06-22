@@ -18,7 +18,6 @@ public class Neopad
 		LaunchpadDeviceModel deviceModel = new LaunchpadDeviceModel();
 		@SuppressWarnings("resource")
 		LaunchpadDevice deviceView = new LaunchpadDevice();
-		deviceView.addModel(deviceModel);
 		try {
 			deviceView.makeUserChooseDevices();
 		} catch (MidiUnavailableException e) {
@@ -27,12 +26,7 @@ public class Neopad
 
 		GuiLaunchpadModel guiModel = new GuiLaunchpadModel();
 		SequenceModel seqModel = new SequenceModel();
-		seqModel.addFrame(0, 0, 0);
-		seqModel.addFrame(0, 0, 0);
 		NeopadGui guiView = new NeopadGui();
-		guiView.addModel(guiModel);
-		guiView.addModel(deviceModel);
-		guiView.addModel(seqModel);
 	}
 
 }

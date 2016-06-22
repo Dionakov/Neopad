@@ -2,7 +2,9 @@ package org.neotouch.neopad.model;
 
 import java.awt.Color;
 
-public final class SequenceModel extends AbstractModel
+import org.neotouch.neopad.mvc.Model;
+
+public final class SequenceModel implements Model
 {
 	private static final int SQUARE_SIDE = 9;
 	private Sequence[][][] buttonSequences = new Sequence[SQUARE_SIDE][SQUARE_SIDE][SQUARE_SIDE];
@@ -22,8 +24,6 @@ public final class SequenceModel extends AbstractModel
 
 	public int addFrame(int row, int col, int page)
 	{
-		setChanged();
-		notifyObservers();
 		return buttonSequences[page][row][col].addFrame();
 	}
 
@@ -42,7 +42,5 @@ public final class SequenceModel extends AbstractModel
 			int bcol, Color color)
 	{
 		buttonSequences[page][row][col].setColorAt(frame, brow, bcol, color);
-		setChanged();
-		notifyObservers();
 	}
 }

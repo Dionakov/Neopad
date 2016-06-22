@@ -7,21 +7,21 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
-import java.util.Observable;
 
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import org.neotouch.neopad.model.AbstractModel;
 import org.neotouch.neopad.model.GuiLaunchpadModel;
 import org.neotouch.neopad.model.LaunchpadDeviceModel;
+import org.neotouch.neopad.mvc.View;
 import org.neotouch.neopad.resource.PatternFile;
 
-@SuppressWarnings("serial")
-public final class LaunchpadControlBar extends JPanel implements ViewController
+public final class LaunchpadControlBar extends JPanel implements View
 {
+	private static final long serialVersionUID = 1L;
+
 	private JButton randomColorsButton = new JButton("Random colors");
 	private JButton currentColorButton = new JButton("Color");
 	private JButton savePatternButton = new JButton("Save pattern");
@@ -115,23 +115,5 @@ public final class LaunchpadControlBar extends JPanel implements ViewController
 	public Color getCurrentColor()
 	{
 		return this.currentColor;
-	}
-
-	@Override
-	public void update(Observable o, Object arg)
-	{
-		// nothing to do.
-	}
-
-	@Override
-	public void addModel(AbstractModel model)
-	{
-		if (model instanceof GuiLaunchpadModel) {
-			buttonGrid = (GuiLaunchpadModel) model;
-			buttonGrid.addObserver(this);
-		} else if (model instanceof LaunchpadDeviceModel) {
-			device = (LaunchpadDeviceModel) model;
-			device.addObserver(this);
-		}
 	}
 }

@@ -10,20 +10,19 @@ import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
-import java.util.Observable;
 
 import javax.swing.JPanel;
 
-import org.neotouch.neopad.model.AbstractModel;
 import org.neotouch.neopad.model.GuiLaunchpadModel;
-import org.neotouch.neopad.model.LaunchpadDeviceModel;
+import org.neotouch.neopad.mvc.View;
 
 import javafx.geometry.Dimension2D;
 import javafx.geometry.Point2D;
 
-@SuppressWarnings("serial")
-public final class LaunchpadPanel extends JPanel implements ViewController
+public final class LaunchpadPanel extends JPanel implements View
 {
+	private static final long serialVersionUID = 1L;
+
 	GuiLaunchpadModel buttonGrid = null;
 	LaunchpadControlBar controlBar = new LaunchpadControlBar();
 
@@ -84,29 +83,5 @@ public final class LaunchpadPanel extends JPanel implements ViewController
 		buttonGrid.rebuild(new Dimension2D(getWidth(), getHeight()),
 				new Point2D(0, controlBar.getHeight()));
 		buttonGrid.draw(g2);
-	}
-
-	@Override
-	public void update(Observable o, Object arg)
-	{
-		if (!(o instanceof GuiLaunchpadModel)) {
-			return;
-		}
-
-		repaint();
-		revalidate();
-	}
-
-	@Override
-	public void addModel(AbstractModel model)
-	{
-		if (model instanceof GuiLaunchpadModel) {
-			buttonGrid = (GuiLaunchpadModel) model;
-			model.addObserver(this);
-
-			controlBar.addModel(model);
-		} else if (model instanceof LaunchpadDeviceModel) {
-			controlBar.addModel(model);
-		}
 	}
 }

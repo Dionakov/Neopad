@@ -2,21 +2,22 @@ package org.neotouch.neopad.view;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
-import java.util.Observable;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import org.neotouch.neopad.model.AbstractModel;
 import org.neotouch.neopad.model.GuiLaunchpadModel;
 import org.neotouch.neopad.model.SequenceModel;
+import org.neotouch.neopad.mvc.View;
 
 import javafx.geometry.Point2D;
 
 // TODO
-public final class SequencePanel extends JPanel implements ViewController
+public final class SequencePanel extends JPanel implements View
 {
+	private static final long serialVersionUID = 1L;
+
 	JScrollPane pane = new JScrollPane();
 	JPanel innerPane = new JPanel();
 	JPanel controlBar = new JPanel();
@@ -32,14 +33,6 @@ public final class SequencePanel extends JPanel implements ViewController
 		add(controlBar, BorderLayout.NORTH);
 
 		controlBar.setLayout(new FlowLayout());
-	}
-
-	@Override
-	public void update(Observable arg0, Object arg1)
-	{
-		if (arg0 instanceof GuiLaunchpadModel) {
-			refresh();
-		}
 	}
 
 	private void refresh()
@@ -58,17 +51,5 @@ public final class SequencePanel extends JPanel implements ViewController
 
 		repaint();
 		revalidate();
-	}
-
-	@Override
-	public void addModel(AbstractModel model)
-	{
-		if (model instanceof SequenceModel) {
-			this.sequenceModel = (SequenceModel) model;
-			model.addObserver(this);
-		} else if (model instanceof GuiLaunchpadModel) {
-			this.launchpadModel = (GuiLaunchpadModel) model;
-			model.addObserver(this);
-		}
 	}
 }

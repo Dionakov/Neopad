@@ -7,11 +7,12 @@ import java.awt.Shape;
 import java.util.Random;
 
 import org.neotouch.neopad.launchpad.Pattern;
+import org.neotouch.neopad.mvc.Model;
 
 import javafx.geometry.Dimension2D;
 import javafx.geometry.Point2D;
 
-public class GuiLaunchpadModel extends AbstractModel
+public class GuiLaunchpadModel implements Model
 {
 	private final int SQUARE_SIDE = 9;
 	private final Point2D EMPTY_BUTTON_POS = new Point2D(0, 8);
@@ -88,9 +89,6 @@ public class GuiLaunchpadModel extends AbstractModel
 				}
 			}
 		}
-
-		setChanged();
-		notifyObservers();
 	}
 
 	public Pattern exportPattern()
@@ -104,9 +102,6 @@ public class GuiLaunchpadModel extends AbstractModel
 				}
 			}
 		}
-
-		setChanged();
-		notifyObservers();
 
 		return p;
 	}
@@ -140,8 +135,6 @@ public class GuiLaunchpadModel extends AbstractModel
 	public void setButtonColor(int row, int col, Color color)
 	{
 		buttonColors[row][col] = color;
-		setChanged();
-		notifyObservers();
 	}
 
 	public Color getButtonColor(int row, int col)
@@ -175,7 +168,5 @@ public class GuiLaunchpadModel extends AbstractModel
 	public void setSelectedButton(Point2D selectedButton)
 	{
 		this.selectedButton = selectedButton;
-		setChanged();
-		notifyObservers();
 	}
 }

@@ -3,17 +3,13 @@ package org.neotouch.neopad.view;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
-import java.util.Observable;
 
 import javax.swing.JFrame;
 import javax.swing.JSplitPane;
 
-import org.neotouch.neopad.model.AbstractModel;
-import org.neotouch.neopad.model.GuiLaunchpadModel;
-import org.neotouch.neopad.model.LaunchpadDeviceModel;
-import org.neotouch.neopad.model.SequenceModel;
+import org.neotouch.neopad.mvc.View;
 
-public final class NeopadGui implements ViewController
+public final class NeopadGui implements View
 {
 	private JFrame frame = new JFrame("Neopad");
 	private LaunchpadPanel launchpadPanel = new LaunchpadPanel();
@@ -47,25 +43,5 @@ public final class NeopadGui implements ViewController
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		frame.setSize(new Dimension(600, 450));
 		frame.setVisible(true);
-	}
-
-	@Override
-	public void update(Observable arg0, Object arg1)
-	{
-		// nothing to do.
-	}
-
-	@Override
-	public void addModel(AbstractModel model)
-	{
-		if (model instanceof GuiLaunchpadModel) {
-			launchpadPanel.addModel(model);
-			resourcePanel.addModel(model);
-			sequencePanel.addModel(model);
-		} else if (model instanceof LaunchpadDeviceModel) {
-			launchpadPanel.addModel(model);
-		} else if (model instanceof SequenceModel) {
-			sequencePanel.addModel(model);
-		}
 	}
 }

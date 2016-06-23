@@ -1,5 +1,6 @@
 package org.neotouch.neopad.view;
 
+import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -110,18 +111,24 @@ public class LaunchpadDevice implements View, Receiver
 		}
 	}
 
-	/*
-	 * private void updateButton(int row, int col) throws
-	 * InvalidMidiDataException { Color c = (model.isButtonLedOn(row, col)) ?
-	 * model.getButtonColor(row, col) : Color.BLACK; byte buttonPos = 0; if (row
-	 * == 0) { buttonPos = (byte) (104 + col); } else { buttonPos = (byte) ((9 -
-	 * row) * 10 + col + 1); } byte[] msg = new byte[] { (byte) 0xF0, 0x00,
-	 * 0x20, 0x29, 0x02, 0x18, 0x0B, buttonPos, (byte) (c.getRed() / (255d /
-	 * 63d)), (byte) (c.getGreen() / (255d / 63d)), (byte) (c.getBlue() / (255d
-	 * / 63d)) }; if (row != 0) { deviceOut.send(new SysexMessage(msg,
-	 * msg.length), -1); deviceOut.send(new SysexMessage(msg, msg.length), -1);
-	 * } }
-	 */
+	public void updateButton(int row, int col, Color color)
+			throws InvalidMidiDataException
+	{
+		byte buttonPos = 0;
+		if (row == 0) {
+			buttonPos = (byte) (104 + col);
+		} else {
+			buttonPos = (byte) ((9 - row) * 10 + col + 1);
+		}
+		byte[] msg = new byte[] { (byte) 0xF0, 0x00, 0x20, 0x29, 0x02, 0x18,
+				0x0B, buttonPos, (byte) (color.getRed() / (255d / 63d)),
+				(byte) (color.getGreen() / (255d / 63d)),
+				(byte) (color.getBlue() / (255d / 63d)) };
+		if (row != 0) {
+			sendMessage(new SysexMessage(msg, msg.length), -1);
+			sendMessage(new SysexMessage(msg, msg.length), -1);
+		}
+	}
 
 	@Override
 	public void close()
@@ -140,7 +147,7 @@ public class LaunchpadDevice implements View, Receiver
 		}
 	}
 
-	public void sendMessage(MidiMessage message, long timeStamp)
+	private void sendMessage(MidiMessage message, long timeStamp)
 	{
 		deviceOut.send(message, timeStamp);
 	}

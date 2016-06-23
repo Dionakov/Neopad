@@ -44,4 +44,9 @@ public final class NeopadGui implements View
 		frame.setSize(new Dimension(600, 450));
 		frame.setVisible(true);
 	}
+
+	public ResourcePanel getResourcePanel()
+	{
+		return this.resourcePanel;
+	}
 }

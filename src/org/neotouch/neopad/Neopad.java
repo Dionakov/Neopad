@@ -4,7 +4,8 @@ import java.io.IOException;
 
 import javax.sound.midi.MidiUnavailableException;
 
-import org.neotouch.neopad.controller.TestController;
+import org.neotouch.neopad.controller.LaunchpadDeviceController;
+import org.neotouch.neopad.controller.ResourcePanelController;
 import org.neotouch.neopad.model.GuiLaunchpadModel;
 import org.neotouch.neopad.model.LaunchpadDeviceModel;
 import org.neotouch.neopad.model.SequenceModel;
@@ -16,11 +17,14 @@ public class Neopad
 
 	public static void main(String[] args) throws IOException
 	{
+		// models
 		LaunchpadDeviceModel deviceModel = new LaunchpadDeviceModel();
-		LaunchpadDevice deviceView = new LaunchpadDevice();
+		GuiLaunchpadModel guiModel = new GuiLaunchpadModel();
+		SequenceModel seqModel = new SequenceModel();
 
-		TestController testController = new TestController(deviceView,
-				deviceModel);
+		// views
+		NeopadGui guiView = new NeopadGui();
+		LaunchpadDevice deviceView = new LaunchpadDevice();
 
 		try {
 			deviceView.makeUserChooseDevices();
@@ -28,9 +32,11 @@ public class Neopad
 			e.printStackTrace();
 		}
 
-		GuiLaunchpadModel guiModel = new GuiLaunchpadModel();
-		SequenceModel seqModel = new SequenceModel();
-		NeopadGui guiView = new NeopadGui();
+		// controllers
+		ResourcePanelController resourcePanelController = new ResourcePanelController(
+				guiView.getResourcePanel(), guiModel);
+		LaunchpadDeviceController deviceController = new LaunchpadDeviceController(
+				deviceView, deviceModel);
 
 		deviceView.close(); // probably useless, but you never know.
 	}

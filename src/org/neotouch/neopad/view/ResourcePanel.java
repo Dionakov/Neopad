@@ -2,6 +2,7 @@ package org.neotouch.neopad.view;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.event.ActionListener;
 import java.io.File;
 
 import javax.swing.JFileChooser;
@@ -45,18 +46,28 @@ public final class ResourcePanel extends JPanel implements View
 			}
 
 		});
+
 		fileChooser.setAcceptAllFileFilterUsed(false);
 		add(fileChooser, BorderLayout.CENTER);
+	}
 
-		/*
-		 * fileChooser.addActionListener(new ActionListener() {
-		 * 
-		 * @Override public void actionPerformed(ActionEvent arg0) { if
-		 * (arg0.getActionCommand() == "ApproveSelection" && grid != null) { try
-		 * { grid.importPattern( new PatternFile(fileChooser.getSelectedFile())
-		 * .loadPattern()); } catch (IOException e) { e.printStackTrace(); } } }
-		 * 
-		 * });
-		 */
+	public void addActionListener(ActionListener l)
+	{
+		fileChooser.addActionListener(l);
+	}
+
+	public void removeActionListener(ActionListener l)
+	{
+		fileChooser.removeActionListener(l);
+	}
+
+	public ActionListener[] getActionListeners()
+	{
+		return fileChooser.getActionListeners();
+	}
+
+	public File getSelectedFile()
+	{
+		return fileChooser.getSelectedFile();
 	}
 }
